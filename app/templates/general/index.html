@@ -1,0 +1,178 @@
+{% extends "general/layout.html" %}
+{% block main_body %}
+<!-- Container holding the search place -->
+<div id="form" class="container" style="padding-top: 15px;">
+	<form class="needs-validation form" action="/search/" method="POST">
+		<div class="form-row">
+			<div class="col-sm-7">
+				<input type="text" class="form-control mb-2" id="query" name="query" pattern="[A-Za-z0-9(\s+)?]+" required />
+				<div class='invalid-feedback'>
+					Please fill your queries.
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+			<select class="custom-select" id="topic" name="topic">
+				<option selected disabled value="">Select topic</option>
+				{% for topic in topics %}
+				<option value="{{ topic }}">{{ topic }}</option>
+				{% endfor %}
+			</select>
+			</div>
+
+			<div class="col-sm-2">
+				<button type="submit" class="btn btn-primary btn-block sm-2">Search</button>
+			</div>
+		</div>
+	</form>	
+</div>
+
+<!-- Container holding cards -->
+<div id="card-holder" class="container vertical-scrollable" style="padding-top: 15px;">
+	{% if data|length != 0 %}
+	{% for item in data %}
+	<!-- Parse data for each card -->
+	<div class="row content-holder">
+		<div class='col-sm-12'>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title"><a class='title' href={{ item.url }} target="_blank">{{ item.title }}</a></h5>
+
+					<div>
+						<p>
+							<span class="topic">{{ item.topic }}</span>
+						</p>
+						<p class="field">
+							<img src={{ url_for('static', filename='authors.png')}} alt="authors" class="icon" />
+							<span class="authors">{{ item.author }}</span>
+						</p>
+						<p class="field">
+							<img src={{ url_for('static', filename='date.png')}} alt="date" class="icon" alt="date" />
+							<span class="date">{{ item.date }}</span>
+						</p>
+						<div class="row">
+							{% for tag in item.tags[:10:] %}
+							<span class="tag">{{ tag }}</span>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</div>
+	{% endfor %}
+	{% else %}
+	<div class="row">
+		<div class="col alert alert-danger">
+			There is no result for this query
+		</div>
+	</div>
+	{% endif %}
+
+</div>
+
+<dir class="paginator container" style="padding-bottom: 60px;">
+	<div class="row">
+		<div class="col-sm-12 text-center">
+			{% if prev_page == None %}
+			<a class="btn btn-primary mr-2 disabled" href="#" role="button">Previous</a>
+			{% endif %}
+			{% if prev_page != None %}
+			<a class="btn btn-primary mr-2" href="?page={{ prev_page }}" role="button">Previous</a>
+			{% endif %}			
+			{% if next_page == None %}
+			<a class="btn btn-primary ml-2 disabled" href="#" role="button">Next</a>
+			{% endif %}
+			{% if next_page != None %}
+			<a class="btn btn-primary mr-2" href="?page={{ next_page }}" role="button">Next</a>
+			{% endif %}
+
+		</div>
+	</div>
+</dir>
+{% endblock %}
+
+<!-- Javascript -->
+{% block script %}
+	{{ super() }}
+	<script>
+		function fetchPapers(topic, page) {
+			sessionStorage.setItem('topic', topic)
+			let cards = document.querySelectorAll('.content-holder')
+
+			// Fetch data
+			fetch('/select/' + topic + '/' + page).then(function(response) {
+				response.json().then(function(data) {
+					let results = data.json_list
+
+					for (let i=0; i < results.length; i++) {
+						let card = cards[i]
+						
+						// Get the current content
+						let title = card.querySelector('.title')
+						let topic = card.querySelector('.topic')
+						let author = card.querySelector('.authors')
+						let date = card.querySelector('.date')
+						let tags = card.querySelectorAll('.tag')
+
+						// Modify the content
+						title.innerText = results[i].title
+						title.href = results[i].url
+						topic.innerText = results[i].topic
+						author.innerText = results[i].author
+						date.innerText = results[i].date
+
+
+						for (let j=0; j < tags.length; j++) {
+							tags[j].innerText = results[i].tags[j]
+						}
+					}
+
+				})
+			})
+		}
+
+		document.getElementById("form").onsubmit = () => {
+			// Add page loader
+			let loader = `
+				<div class="row">
+					<div class="col text-center">
+						<div class="spinner-border" role="status">
+					  		<span class="sr-only">Loading...</span>
+						</div>				
+						<div>
+							Searching for results
+						</div>
+					</div>
+				</div>
+			`
+			document.getElementById("card-holder").innerHTML = loader
+
+			// Remove paginator
+			var element = document.querySelector('.paginator')
+			element.parentNode.removeChild(element)
+		}
+
+		document.onreadystatechange = function() {
+			if (document.readyState === 'complete'){
+				// Persist topic per page
+				var selTopic = sessionStorage.getItem('topic')
+				let topic_select = document.getElementById('topic')
+				if (selTopic !== null) {
+					topic_select.value = selTopic
+				}
+
+				// Search params
+				const params = new URLSearchParams(window.location.search)
+				var page = 1
+				if (params.has('page')) {
+					page = params.get('page')
+				}
+
+				// Change topic dynamically
+				topic_select.onchange = () => { fetchPapers(topic_select.value, page) }
+			}
+		}
+
+	</script>
+{% endblock%}

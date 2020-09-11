@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% block head %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">	
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+	
+	<!-- Customised CSS -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
+	<!-- JQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+	<title>AJSeach - Home</title>
+	{% endblock %}
+</head>
+<body>
+	<!-- A Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	  	<a class="navbar-brand" href="/">AJSearch</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbar">
+			<div class="mr-auto"></div>
+			<ul class="navbar-nav mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link link" href="#" data-toggle="modal" data-target="#about">About<span class="sr-only">(current)</span></a>
+				</li>			
+		    </ul>
+		</div>
+	</nav>
+
+	{% block main_body %}
+	{% endblock%}
+
+	<!-- A Footer -->
+	{% block footer %}
+	<footer class="footer">
+		<p class="text-center size-12">
+			The extracted data is from <a href="https://arxiv.org/" target="_blank">arxiv.org</a>
+		</p>
+	</footer>
+	{% endblock %}
+
+	<!-- Modal view -->
+	{% block modal_views %}
+	{% endblock %}
+
+	{% block script %}
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+	{% endblock %}
+</body>
+</html>

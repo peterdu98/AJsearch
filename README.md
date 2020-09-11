@@ -7,12 +7,13 @@ The project includes 4 main components to build such as data crawling pipeline, 
 * Natural Language Processing (NLP) and machine learning techniques will be used to build and evaluate the recommended model respectively.
 
 ## Tasks
-- [ ] Crawl data from arXiv
-- [ ] Implement data models and connect Azure SQL Database
-- [ ] Implement automated data crawling pipeline
-- [ ] Implement and experiment recommended models
-- [ ] Build API for getting data and running the recommended model
-- [ ] Design and implement User Interface
+- [x] Crawl data from arXiv
+- [x] Implement automated data crawling pipeline
+- [x] Design and implement User Interface
+- [x] Implement data models and connect Azure SQL Database
+- [x] Implement and experiment recommended models
+- [x] Build pipelines for getting data and running the recommended model
+
 
 ## Requirements and Guidelines
 

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block head %}
+	{{ super() }}
+	<script src={{ url_for("static", filename="modal.js") }}></script>
+{% endblock%}
+
+{% block modal_views %}
+<!-- Modal -->
+<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="aboutTile" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="aboutTile">About the app</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<section>
+					<h5>Introduction</h5>
+					<p>AJSearch stands for Article Journal Search. The app is used to search articles or journals for research purposes. Unlike other search engines, the app uses natural language processing and machine learning algorithms to find the top similar results for a given query. Also, the app shows a list of keywords that indicate the reason for matching results.</p>					
+				</section>
+				<section>
+					<h5>About version</h5>
+					<p>The app is in its 1st version. There are some notes for this version as follows.</p>
+					<ul>
+						<li>You can send the feedback for further development.</li>
+						<li>The app mainly focuses on topics in the <b>Computer Science</b> area.</li>
+					</ul>
+				</section>
+				<section>
+					<h5>References</h5>
+					<p>The app was created by Peter Du - <a href="https://github.com/peterdu98">Github</a></p>
+					<p>The extracted data for the app is from <a href="https://arxiv.org" taget="_blank">arxiv.org</a> </p>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
