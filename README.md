@@ -32,7 +32,7 @@ The app is hosted at [http://ajsearch.azurewebsites.net/](http://ajsearch.azurew
 1. Clone the project 
 
 ```
-git clone https://ajsearch.scm.azurewebsites.net/
+git clone https://github.com/peterdu98/AJsearch.git
 ```
 
 2. Install dependencies
